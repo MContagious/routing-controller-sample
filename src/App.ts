@@ -3,6 +3,7 @@ import {useExpressServer} from "routing-controllers";
 import * as debug from 'debug';
 import * as http from 'http';
 import * as express from 'express';
+
 import "./controllers/HeroController";
 
 class App {

@@ -9,25 +9,27 @@ export class HeroesRepository {
         this.heroes = heroes.map(hero => new Hero(hero))
     }
     findAll() {
-        console.log(this.heroes);
         return Promise.resolve(this.heroes);
     }
-    findById(id: number) {
-        return Promise.resolve(this.heroes.find(hero => hero.id === id));
+    findById(id: number): Promise<Hero> {
+        return new Promise((resolve, reject) => {
+            let hero = this.heroes.find(hero => hero.id === id);
+            if (hero) {
+                resolve(hero);
+            } else {
+                reject(new Error("No hero found with the given id."));
+            }
+        });
     }
     create(hero:any) {
         this.heroes.push(new Hero(hero));
         hero.id = this.heroes.length;
         Promise.resolve(hero);
     }
-    async remove(id:number) {
-        const hero = await this.findById(id);
-        if (hero) {
-            this.heroes.splice(
-                this.heroes.indexOf(hero),
-                1
-            );
-        }
-        return Promise.resolve(hero)
+    async remove(id:number): Promise<Hero> {
+        return await this.findById(id).then((hero) => {
+            this.heroes.splice(this.heroes.indexOf(hero), 1);
+            return hero;
+        });
     }
 }

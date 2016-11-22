@@ -12,7 +12,6 @@ describe('GET api/v1/heroes', () => {
     it('responds with JSON array', () => {
         return chai.request(app).get('/api/v1/heroes')
         .then(res => {
-            console.log(res.body);
             expect(res.status).to.equal(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
